@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flip Card</title>
+    <style>
+      * {
+        margin: 0 auto;
+        padding: 0;
+      }
+      /* dùng grid để css ảnh thành 4 hàng 3 cột */
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .main {
+        width: 50%;
+        height: 80%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .listImg {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        grid-gap: 5px;
+      }
+      .listImg img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- tạo giao diện  ảnh -->
+    <div class="container">
+      <h1>Flip Card</h1>
+      <div class="main">
+        <div class="listImg">
+          <img src="./img/baby-bear.jpg" alt="" title="click cách nhau 1s" />
+          <img src="./img/bird.jpg" alt="" title="click cách nhau 1s" />
+          <img src="./img/cat.jpg" alt="" title="click cách nhau 1s" />
+          <img src="./img/dog.jpg" alt="" title="click cách nhau 1s" />
+          <img src="./img/hamster.jpg" alt="" title="click cách nhau 1s" />
+          <img src="./img/curious-cat.jpg" alt="" title="click cách nhau 1s" />
+          <img src="./img/baby-bear.jpg" alt="" title="click cách nhau 1s" />
+          <img src="./img/bird.jpg" alt="" title="click cách nhau 1s" />
+          <img src="./img/cat.jpg" alt="" title="click cách nhau 1s" />
+          <img src="./img/dog.jpg" alt="" title="click cách nhau 1s" />
+          <img src="./img/hamster.jpg" alt="" title="click cách nhau 1s" />
+          <img src="./img/curious-cat.jpg" alt="" title="click cách nhau 1s" />
+        </div>
+      </div>
+    </div>
+    <script>
+      //  thay các ảnh khi mới vào thành question-mark
+      let listImg = document.querySelectorAll(".listImg img");
+      for (let i = 0; i < listImg.length; i++) {
+        listImg[i].src = "./img/question-mark.jpg";
+      }
+
+      //  tạo mảng chứa ảnh
+      let arrImg = [
+        "./img/baby-bear.jpg",
+        "./img/bird.jpg",
+        "./img/cat.jpg",
+        "./img/dog.jpg",
+        "./img/hamster.jpg",
+        "./img/curious-cat.jpg",
+        "./img/baby-bear.jpg",
+        "./img/bird.jpg",
+        "./img/cat.jpg",
+        "./img/dog.jpg",
+        "./img/hamster.jpg",
+        "./img/curious-cat.jpg",
+      ];
+
+      //  xáo trộn mảng
+      // arrImg.sort(function(a, b){return 0.5 - Math.random()});
+      arrImg.sort(function (a, b) {
+        return Math.random() - 0.5;
+      });
+
+      // So sánh 2 ảnh bằng cách so sánh src của 2 ảnh đó, nếu giống nhau thì ảnh đó sẽ được giữ nguyên trạng thái lật
+      // Nếu 2 ảnh không giống nhau thì ảnh đó sẽ trả về ảnh .img/question-mark.jpg
+      let img1 = "";
+      let img2 = "";
+      let count = 0;
+      let countWin = 0;
+
+      for (let i = 0; i < listImg.length; i++) {
+        listImg[i].onclick = function () {
+          if (count < 2) {
+            // giới hạn số lần lật ảnh
+            if (count == 0) {
+              // lần lật ảnh thứ nhất
+              img1 = listImg[i]; // lưu lại ảnh đầu tiên
+              img1.src = arrImg[i]; // thay đổi src của ảnh đầu tiên
+              count++; // tăng số lần lật ảnh
+            } else {
+              // lần lật ảnh thứ 2
+              img2 = listImg[i]; // lưu lại ảnh thứ 2
+              img2.src = arrImg[i];
+              count++;
+            }
+          }
+          if (count == 2) {
+            // nếu đã lật 2 ảnh
+            if (img1.src != img2.src) {
+              // nếu 2 ảnh không giống nhau thì trả về ảnh question-mark
+              setTimeout(function () {
+                img1.src = "./img/question-mark.jpg";
+                img2.src = "./img/question-mark.jpg";
+              }, 1000);
+            } else {
+              countWin += 2; //  nếu 2 ảnh giống nhau thì tăng biến đếm số ảnh giống nhau
+              if (countWin === arrImg.length) {
+                // nếu số ảnh giống nhau bằng số lượng ảnh thì thông báo win
+                setTimeout(function () {
+                  alert("Congratulations! You've won the game!");
+                }, 1000);
+              }
+            }
+            count = 0;
+          }
+        };
+      }
+    </script>
+  </body>
+</html>
